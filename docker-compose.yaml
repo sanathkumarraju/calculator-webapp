@@ -2,7 +2,9 @@ version: "3.8"
 
 services:
   jenkins:
-    image: jenkins/jenkins:lts-jdk11
+    build:
+      context: ./jenkins
+      dockerfile: Dockerfile
     container_name: jenkins 
     ports:
       - "8080:8080"   # Jenkins UI
