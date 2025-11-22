@@ -3,7 +3,7 @@ version: "3.8"
 services:
   jenkins:
     image: jenkins/jenkins:lts-jdk11
-    container_name: jenkins
+    container_name: jenkins 
     ports:
       - "8080:8080"   # Jenkins UI
       - "50000:50000" # Agent communication
@@ -13,7 +13,7 @@ services:
       #- /usr/bin/docker:/usr/bin/docker
       - jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock  # allow Jenkins to use host Docker
-      - C:/'Program Files'/Docker/Docker/resources/bin/docker.exe:/usr/bin/docker
+      #- C:/'Program Files'/Docker/Docker/resources/bin/docker.exe:/usr/bin/docker
     restart: unless-stopped
 
   calculator:

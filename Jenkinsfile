@@ -20,8 +20,13 @@ pipeline {
             }
         }
 
-
         stage('Build Docker Image') {
+            agent {
+                docker {
+                    image 'docker:20.10'   // Docker CLI image
+                    args '-v /var/run/docker.sock:/var/run/docker.sock'
+                }
+            }
             steps {
                 dir("${env.WORKSPACE}") {
                     sh 'docker build -t calculator-app .'
@@ -30,6 +35,12 @@ pipeline {
         }
 
         stage('Deploy') {
+            agent {
+                docker {
+                    image 'docker:20.10'
+                    args '-v /var/run/docker.sock:/var/run/docker.sock -p 80:5000:5000'
+                }
+            }
             steps {
                 sh '''
                 docker rm -f calculator || true
@@ -39,6 +50,12 @@ pipeline {
         }
 
         stage('Push to DockerHub') {
+            agent {
+                docker {
+                    image 'docker:20.10'
+                    args '-v /var/run/docker.sock:/var/run/docker.sock'
+                }
+            }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh '''
