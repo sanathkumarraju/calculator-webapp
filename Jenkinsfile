@@ -8,9 +8,24 @@ pipeline {
             }
         }
 
+        stage('Verify Repo') {
+            steps {
+                dir("${env.WORKSPACE}") {
+                    sh '''
+                    echo "Workspace: $(pwd)"
+                    ls -a
+                    git remote -v
+                    '''
+                }
+            }
+        }
+
+
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t calculator-app .'
+                dir("${env.WORKSPACE}") {
+                    sh 'docker build -t calculator-app .'
+                }
             }
         }
 
