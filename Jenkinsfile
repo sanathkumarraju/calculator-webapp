@@ -65,6 +65,17 @@ pipeline {
                     '''
                 }
             }
+
+            stage('Run Locally') {
+                steps {
+                    // Stop old container if running
+                    sh 'docker rm -f calculator || true'
+                    // Pull latest image from Docker Hub
+                    sh 'docker pull skraju/calculator-app:latest'
+                    // Run new container
+                    sh 'docker run -d --name calculator -p 8080:5000 skraju/calculator-app:latest'
+                }
+            }
         }
     }
 }
