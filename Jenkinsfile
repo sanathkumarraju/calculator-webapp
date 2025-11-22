@@ -37,7 +37,7 @@ pipeline {
         stage('Deploy') {
             agent {
                 docker {
-                    image 'docker:20.10'
+                    image 'docker:29.0.1'
                     args '-v /var/run/docker.sock:/var/run/docker.sock -p 80:5000:5000'
                 }
             }
@@ -52,7 +52,7 @@ pipeline {
         stage('Push to DockerHub') {
             agent {
                 docker {
-                    image 'docker:20.10'
+                    image 'docker:29.0.1'
                     args '-v /var/run/docker.sock:/var/run/docker.sock'
                 }
             }
