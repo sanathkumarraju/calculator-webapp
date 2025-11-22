@@ -23,7 +23,7 @@ pipeline {
         stage('Build Docker Image') {
             agent {
                 docker {
-                    image 'docker:24.0'   // Docker CLI image
+                    image 'docker:25.0'   // Docker CLI image
                     args '-v /var/run/docker.sock:/var/run/docker.sock'
                 }
             }
@@ -37,7 +37,7 @@ pipeline {
         stage('Deploy') {
             agent {
                 docker {
-                    image 'docker:24.0'
+                    image 'docker:25.0'
                     args '-v /var/run/docker.sock:/var/run/docker.sock -p 5000:5000'
                 }
             }
@@ -52,7 +52,7 @@ pipeline {
         stage('Push to DockerHub') {
             agent {
                 docker {
-                    image 'docker:29.0.2'
+                    image 'docker:25.0'
                     args '-v /var/run/docker.sock:/var/run/docker.sock'
                 }
             }
