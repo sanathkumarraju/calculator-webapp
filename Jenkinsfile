@@ -106,5 +106,18 @@ pipeline {
                 '''
             }
         }
+        stage('Health Check') {
+            steps {
+                sh """
+                    ssh ${VM_HOST} '
+                        # Wait a few seconds for container startup
+                        sleep 5
+                        # Test if the app responds on port 80
+                        curl -s -o /dev/null -w "%{http_code}" http://localhost:80 | grep 200
+                    '
+                
+                """
+            }
+        }
     }
 }
