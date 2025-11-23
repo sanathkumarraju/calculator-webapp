@@ -77,5 +77,14 @@ pipeline {
                 sh 'docker run -d --name calculator -p 80:5000 skraju/calculator-app:latest'
             }
         }
+
+        stage('Deploy_vm') {
+            steps {
+                sh '''
+                scp -r * root@192.168.29.201:/opt/calculator-app
+                ssh root@192.168.29.201 "pkill -f app.py || true && nohup python3 /opt/calculator-app/app.py &"
+                '''
+            }
+        }
     }
 }
