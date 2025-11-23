@@ -1,5 +1,10 @@
 pipeline {
     agent any
+    environment {
+        VM_HOST = 'root@192.168.29.201'
+        IMAGE_NAME = 'skraju/calculator-app:latest'
+        CONTAINER_NAME = 'calculator'
+    }   
 
     stages {
         stage('Checkout') {
@@ -83,6 +88,21 @@ pipeline {
                 sh '''
                 scp -r * root@192.168.29.201:/opt/calculator-app
                 ssh root@192.168.29.201 "pkill -f app.py || true && nohup python3 /opt/calculator-app/app.py &"
+                '''
+            }
+        }
+
+        stage('Run Locally_VM') {
+            steps {
+                sh '''
+                    ssh ${VM_HOST} "
+                        // Stop old container if running
+                        docker rm -f calculator || true
+                        // Pull latest image from Docker Hub
+                        docker pull skraju/calculator-app:latest
+                        //Run new container
+                        docker run -d --name calculator -p 80:5000 skraju/calculator-app:latest
+                    "
                 '''
             }
         }
