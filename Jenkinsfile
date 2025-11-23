@@ -114,7 +114,7 @@ pipeline {
                         sleep 5
                         # Test if the app responds on port 80
                         curl -s -o /dev/null -w "%{http_code}" http://localhost:80 | grep 200
-                        #ngrok config add-authtoken 35svZEBsOX52Z4l5765zsIcwHTl_6gJUwz5gAu6NghhurcwWj
+                        ngrok config add-authtoken 35svZEBsOX52Z4l5765zsIcwHTl_6gJUwz5gAu6NghhurcwWj
                     '
                 """
             }
